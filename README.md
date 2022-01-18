@@ -8,6 +8,8 @@ PubSub to BigQuery
 
 
 export PROJECT_ID=$(gcloud config get-value project)
+
+
 export LAB_ID=6
 
 
