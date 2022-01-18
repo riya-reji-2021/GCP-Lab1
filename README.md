@@ -5,11 +5,17 @@ PubSub to BigQuery
 #Commands to execute:
 
 
+
+
 export PROJECT_ID=$(gcloud config get-value project)
 export LAB_ID=6
 
 
+
+
 mvn clean dependency:resolve
+
+
 
 
 mvn compile exec:java \
