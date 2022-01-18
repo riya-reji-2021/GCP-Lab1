@@ -1,4 +1,5 @@
 package lab1;
+
 import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.PipelineResult;
@@ -25,13 +26,13 @@ public class PubSubToBigQuery {
 
     //setting options
     public interface Options extends DataflowPipelineOptions {
+        @Description("BigQuery table name")
+        String getTableName();
+        void setTableName(String tableName);
+        
         @Description("PubSub Subscription")
         String getSubTopic();
         void setSubTopic(String subTopic);
-
-        @Description("BigQuery table name")
-        String getOutputTableName();
-        void setTableName(String outputTableName);
 
         @Description("Dlq topic")
         String getDlqTopic();
@@ -95,7 +96,7 @@ public class PubSubToBigQuery {
 
                 //convert from Json to Row using rawSchema
                     .apply("Convert from json to row",JsonToRow.withSchema(rawSchema))
-                    .apply("Write to output BigQuery table",BigQueryIO.<Row>write().to(options.getOutputTableName())
+                    .apply("Write to output BigQuery table",BigQueryIO.<Row>write().to(options.getTableName())
                             .useBeamSchema().withCreateDisposition(BigQueryIO.Write.CreateDisposition.CREATE_NEVER)
                             .withWriteDisposition(BigQueryIO.Write.WriteDisposition.WRITE_APPEND));
 
